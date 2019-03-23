@@ -89,15 +89,6 @@ model = ResNet50(weights='imagenet')
 print('Model loaded. Check http://127.0.0.1:5000/')
 
 
-# global model
-# model = ResNet50(weights='imagenet')
-# print('Model loaded. Check http://127.0.0.1:5000/')
-# global graph
-# graph = tf.get_default_graph()
-
-
-# First image processing provided by base code
-
 def model_predict(img_path, model):
     img = image.load_img(img_path, target_size=(224, 224))
 
@@ -112,24 +103,6 @@ def model_predict(img_path, model):
 
     preds = model.predict(x)
     return preds
-
-
-# second image processing test
-
-# def model_predict(img_path, model):
-#     img = image.load_img(img_path, target_size=(75, 100))
-
-#     # add a global spatial average pooling layer
-#     x = MODEL_PATH.output
-#     x = GlobalAveragePooling2D()(x)
-#     # add a fully-connected layer
-#     x = Dense(1024, activation='relu')(x)
-#     # and a logistic layer -- let's say we have 7 classes
-#     predictions = Dense(7, activation='softmax')(x)
-#     model = Model(inputs=MODEL_PATH.input, outputs=predictions)
-
-#     preds = model.predict(x)
-#     return preds
 
 
 @app.route('/', methods=['GET'])
@@ -162,7 +135,7 @@ def upload():
 
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=True)
+    app.run(port=5002, debug=False, threaded=False)
     #  app.run(debug=True)
 
     # Serve the app with gevent
