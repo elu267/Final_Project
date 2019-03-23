@@ -1,55 +1,65 @@
-# import necessary libraries
-from flask import Flask, jsonify, render_template
-from flask_sqlalchemy import SQLAlchemy
 import os
+from flask import Flask, request, jsonify
 
-import pandas as pd
-import numpy as np
-
-import sqlalchemy
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+from keras.preprocessing import image
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
-#################################################
-# Database Setup
-#################################################
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///../Resources/clean_finalProjectL2.sqlite"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+def prepare_image(img):
+    # Convert the image to a numpy array
+    img = image.img_to_array(img)
+    # Scale from 0 to 255
+    img /= 255
+    # Invert the pixels
+    img = 1 - img
+    # Flatten the image to an array of pixels
+    image_array = img.flatten().reshape(-1, 28 * 28)
+    # Return the processed feature array
+    return image_array
 
-# reflect an existing database into a new model
-Base = automap_base()
-# reflect the tables
-Base.prepare(db.engine, reflect=True)
 
-# Save references to each table
-finalProjectL2 = Base.classes.clean_finalProjectL2
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        print(request)
 
-# create route that renders index.html template
-@app.route("/")
-def index():
-    """Return the homepage."""
-    print("reading the index function")
-    return render_template("indexTEST.html")
+        if request.files.get('file'):
+            # read the file
+            file = request.files['file']
 
-@app.route("/metadata")
-def meta():
-   """Go To Meta data data page"""
-   print("reading the Meta data function")
-   return render_template("Meta.html")
+            # read the filename
+            filename = file.filename
 
-@app.route("/lesionLegion")
-def leasion():
-    stmt = db.session.query(finalProjectL2).statement
-    df = pd.read_sql_query(stmt, db.session.bind)
+            # create a path to the uploads folder
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-    data = df.to_dict('records')
+            # Save the file to the uploads folder
+            file.save(filepath)
 
-    return jsonify(data)
+            # Load the saved image using Keras and resize it to the mnist format of 28x28 pixels
+            image_size = (28, 28)
+            im = image.load_img(filepath, target_size=image_size, grayscale=True)
+           
+            # Convert the 2D image to an array of pixel values
+            image_array = prepare_image(im)
+            print(image_array)
+
+            return "Data Pre-processing Complete!"
+
+   ################################################################################
+   # NEED TO REPLACE THIS LAST PART BECAUSE THE HTML WILL BE IN THE INDEX.HTML FILE
+   ################################################################################
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
 
 
 if __name__ == "__main__":
