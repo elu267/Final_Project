@@ -1,6 +1,5 @@
 # Final_Project
 
-
 ## Overview
 This the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
 
@@ -54,18 +53,24 @@ from sklearn.model_selection import train_test_split
 
 ### Step 2: Data Exploration and Cleanup
 Check for missing information `<skin_df.isnull().sum()>`.
-Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`.
-![Types](Final_Project/static/images/bar1.png)
 
+Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`.
+
+![Types](Final_Project/static/images/ageDistribution.png)
 
 
 ## Building and Training the Model
+* can over sample the set or undersample the set to deal with class imbalance
+* insert sample code + descriptions here
 
 ## Testing the Model
+* insert sample code + descriptions here
 
-## Deployment
+## Conclusion
+* make note of the limitations of the data set
 
-## Built With
+## Deployment: Try it Yourself
+[Heroku](https://lesionlegion.herokuapp.com)
 
 ## Authors
 
@@ -77,9 +82,8 @@ Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=
 
 ## Acknowledgments
 
-* insert the inspiration (i.e. Kaggle kernel)
+* Manu Siddhartha, Step Wise Approach: CCN Model [Kaggle:](https://www.kaggle.com/sid321axn/step-wise-approach-cnn-model-77-0344-accuracy)
 * insert anyone whose code was used
-
 * Tschandl, P., Rosendahl, C. & Kittler, H. The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions. Sci. Data 5, 180161 doi:10.1038/sdata.2018.161 (2018).
 
 
