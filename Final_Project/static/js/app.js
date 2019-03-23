@@ -62,4 +62,4 @@ $(document).ready(function() {
   })
 })
 
-console.log('this is still working right?')
+console.log('this is still working right? or is it?')
