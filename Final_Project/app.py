@@ -1,66 +1,97 @@
-import os
-from flask import Flask, request, jsonify
+from __future__ import division, print_function
 
+# import necessary libraries
+from flask import Flask, jsonify, render_template, redirect, url_for, request
+from flask_sqlalchemy import SQLAlchemy
+
+from werkzeug.utils import secure_filename
+from gevent.pywsgi import WSGIServer
+
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine
+
+
+# coding=utf-8
+import sys
+import os
+import glob
+import re
+import pandas as pd
+import numpy as np
+
+# Keras
+from keras.applications.imagenet_utils import preprocess_input, decode_predictions
+from keras.models import load_model
 from keras.preprocessing import image
+from keras.applications.resnet50 import ResNet50
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Model saved with Keras model.save()
+MODEL_PATH = 'models/skin_model_1.h5'
+
+# Load your trained model
+# model = load_model(MODEL_PATH)
+# model._make_predict_function()          # Necessary
+print('Model loaded. Start serving...')
+
+# You can also use pretrained model from Keras
+# Check https://keras.io/applications/
+model = ResNet50(weights='imagenet')
+print('Model loaded. Check http://127.0.0.1:5000/')
 
 
-def prepare_image(img):
-    # Convert the image to a numpy array
-    img = image.img_to_array(img)
-    # Scale from 0 to 255
-    img /= 255
-    # Invert the pixels
-    img = 1 - img
-    # Flatten the image to an array of pixels
-    image_array = img.flatten().reshape(-1, 28 * 28)
-    # Return the processed feature array
-    return image_array
+def model_predict(img_path, model):
+    img = image.load_img(img_path, target_size=(224, 224))
+
+    # Preprocessing the image
+    x = image.img_to_array(img)
+    # x = np.true_divide(x, 255)
+    x = np.expand_dims(x, axis=0)
+
+    # Be careful how your trained model deals with the input
+    # otherwise, it won't make correct prediction!
+    x = preprocess_input(x, mode='caffe')
+
+    preds = model.predict(x)
+    return preds
 
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
+@app.route('/', methods=['GET'])
+def index():
+    # Main page
+    return render_template('index.html')
+
+
+@app.route('/predict', methods=['GET', 'POST'])
+def upload():
     if request.method == 'POST':
-        print(request)
+        # Get the file from post request
+        f = request.files['file']
 
-        if request.files.get('file'):
-            # read the file
-            file = request.files['file']
+        # Save the file to ./uploads
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join(
+            basepath, 'uploads', secure_filename(f.filename))
+        f.save(file_path)
 
-            # read the filename
-            filename = file.filename
+        # Make prediction
+        preds = model_predict(file_path, model)
 
-            # create a path to the uploads folder
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-            # Save the file to the uploads folder
-            file.save(filepath)
-
-            # Load the saved image using Keras and resize it to the mnist format of 28x28 pixels
-            image_size = (28, 28)
-            im = image.load_img(filepath, target_size=image_size, grayscale=True)
-           
-            # Convert the 2D image to an array of pixel values
-            image_array = prepare_image(im)
-            print(image_array)
-
-            return "Data Pre-processing Complete!"
-
-   ################################################################################
-   # NEED TO REPLACE THIS LAST PART BECAUSE THE HTML WILL BE IN THE INDEX.HTML FILE
-   ################################################################################
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+        # Process your result for human
+        # pred_class = preds.argmax(axis=-1)            # Simple argmax
+        pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
+        result = str(pred_class[0][0][1])               # Convert to string
+        return result
+    return None
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5002, debug=False, threaded=False)
+    #  app.run(debug=True)
+
+    # Serve the app with gevent
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
