@@ -55,7 +55,7 @@ from sklearn.model_selection import train_test_split
 ### Step 2: Data Exploration and Cleanup
 Check for missing information `<skin_df.isnull().sum()>`.
 Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`.
-![Types](Final_Project/images/bar1.png)!
+![Types](Final_Project/static/images/bar1.png)
 
 
 
