@@ -72,7 +72,7 @@ One of the challenges with our chosen data set was the imbalance of the availabl
 
 ### Step 3:  Building and Training the Model
 
-We used the ![Keras Sequential API](https://keras.io/getting-started/sequential-model-guide/) to build our convolutional neural network ("CNN"). The sequential model is a linear stack of layers. We chose to optimize the model using the Adam algorithm. This is an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. We chose to address this imbalance by using an oversampling technique to reduce the imbalance.
+We used the [Keras Sequential API](https://keras.io/getting-started/sequential-model-guide/) to build our convolutional neural network ("CNN"). The sequential model is a linear stack of layers. We chose to optimize the model using the Adam algorithm. This is an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. We chose to address this imbalance by using an oversampling technique to reduce the imbalance.
 
 * can over sample the set or undersample the set to deal with class imbalance
 * insert sample code + descriptions here
@@ -82,10 +82,10 @@ We used the ![Keras Sequential API](https://keras.io/getting-started/sequential-
 * insert model measurements here
 
 ## Conclusion
-* make note of the limitations of the data set
+* Overall, we achieved xx% accuracy. Future work includes blah blah blah blah and blah.
 
 ## Deployment: Try it Yourself
-[Heroku App](https://lesionlegion.herokuapp.com)
+A working prototype can be found here: [Heroku](https://lesionlegion.herokuapp.com)
 
 ## Project Team Members
 
