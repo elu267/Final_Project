@@ -52,11 +52,18 @@ from sklearn.model_selection import train_test_split
 ```
 
 ### Step 2: Data Exploration and Cleanup
-Check for missing information `<skin_df.isnull().sum()>`.
+Check for missing information `<skin_df.isnull().sum()>`. Only the age column has missing values; therefore, fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`. 
 
-Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`.
+Exploring the features of the data set:
+![Types of Lesions](Final_Project/static/images/lesionTypes.png)
+![Location of Lesions](Final_Project/static/images/lesionLocation.png)
+![Age Distribution](Final_Project/static/images/ageDistribution.png)
+![Gender Distribution](Final_Project/static/images/genderlpng)
 
-![Types](Final_Project/static/images/ageDistribution.png)
+Loading and resizing of images:
+```skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((100,75))))```
+
+Add limitations of the data set and the steps taken to correct for those limitations
 
 
 ## Building and Training the Model
@@ -65,14 +72,15 @@ Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=
 
 ## Testing the Model
 * insert sample code + descriptions here
+* insert model measurements here
 
 ## Conclusion
 * make note of the limitations of the data set
 
 ## Deployment: Try it Yourself
-[Heroku](https://lesionlegion.herokuapp.com)
+[Heroku App](https://lesionlegion.herokuapp.com)
 
-## Authors
+## Project Team Members
 
 * James Curtis
 * Austen Manser
@@ -82,7 +90,7 @@ Fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=
 
 ## Acknowledgments
 
-* Manu Siddhartha, Step Wise Approach: CCN Model [Kaggle:](https://www.kaggle.com/sid321axn/step-wise-approach-cnn-model-77-0344-accuracy)
+* Manu Siddhartha, Step Wise Approach: CCN Model [Kaggle](https://www.kaggle.com/sid321axn/step-wise-approach-cnn-model-77-0344-accuracy)
 * insert anyone whose code was used
 * Tschandl, P., Rosendahl, C. & Kittler, H. The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions. Sci. Data 5, 180161 doi:10.1038/sdata.2018.161 (2018).
 
