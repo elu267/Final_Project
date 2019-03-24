@@ -3,6 +3,28 @@
 /* Tablet Layout: 768px */
 /* Mobile Layout: 320px */
 /* Wide Mobile Layout: 480px */
+
+/* =================================== */
+/*  Added Style for Flask App
+/* =================================== */
+
+label {
+  cursor: pointer;
+  /* Style as you please, it will become the visible UI component. */
+  border: #000;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: 30px;
+  background-color: #000;
+}
+
+#imageUpload {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+
 /* =================================== */
 /*  Basic Style 
 /* =================================== */
