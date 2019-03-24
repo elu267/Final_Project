@@ -47,15 +47,12 @@ load_model()
 def prepare_image(img):
     # Convert the image to a numpy array
     img = image.img_to_array(img)
-    print(img)
-    # # Scale from 0 to 255
-    # img /= 255
-    # # Invert the pixels
-    # img = 1 - img
-    # # Flatten the image to an array of pixels
-    # image_array = img.flatten().reshape(-1, 28 * 28)
-    img = np.arange(27500).reshape(100,75)
-    img = img.reshape((img.shape[0]*75, 100,3))
+    # Scale from 0 to 255
+    img /= 255
+    # Invert the pixels
+    img = 1 - img
+    # Flatten the image to an array of pixel
+    image_array =  img.reshape(img.shape[0], *(75, 100, 3))  
     # Return the processed feature array
     return image_array
 
@@ -87,13 +84,13 @@ def upload():
 
             # Load the saved image using Keras and resize it to the mnist
             # format of 28x28 pixels
-            image_size = (275, 100, 3)
+            image_size = (75, 100, 3)
             im = image.load_img(filepath, target_size=image_size,
-                                grayscale=True)
+                                grayscale=False)
 
             # Convert the 2D image to an array of pixel values
             image_array = prepare_image(im)
-            print(image_array)
+            print(image_array.shape)
 
             # Get the tensorflow default graph and use it to make predictions
             global graph
