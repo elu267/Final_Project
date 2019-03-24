@@ -22,87 +22,42 @@ import pandas as pd
 import numpy as np
 
 # Keras
+import keras
 from keras.applications.imagenet_utils import preprocess_input, decode_predictions
 from keras.models import load_model
 from keras.preprocessing import image
+from keras import backend as K
 from keras.applications.resnet50 import ResNet50
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
-# Bills base testing code.
+model = None
+graph = None
 
-
-def billsSkiResort(): {
-
-    #################################################
-    # Database Setup
-    #################################################
-
-    # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///../Resources/clean_finalProjectL2.sqlite"
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # db = SQLAlchemy(app)
-
-    # # reflect an existing database into a new model
-    # Base = automap_base()
-    # # reflect the tables
-    # Base.prepare(db.engine, reflect=True)
-
-    # # Save references to each table
-    # finalProjectL2 = Base.classes.clean_finalProjectL2
-
-    # # create route that renders index.html template
-    # @app.route("/")
-    # def index():
-    #    """Return the homepage."""
-    #    print("reading the index function")
-    #    return render_template("indexTEST.html")
-
-    # @app.route("/metadata")
-    # def meta():
-    #    """Go To Meta data data page"""
-    #    print("reading the Meta data function")
-    #    return render_template("Meta.html")
-
-    # @app.route("/lesionLegion")
-    # def leasion():
-    #    stmt = db.session.query(finalProjectL2).statement
-    #    df = pd.read_sql_query(stmt, db.session.bind)
-
-    #    data = df.to_dict('records')
-
-    #    return jsonify(data)
-
-}
+def load_model():
+    global model
+    global graph
+    model = keras.models.load_model("models/skin_model_1.h5")
+    graph = K.get_session().graph
 
 
-# Model saved with Keras model.save()
-MODEL_PATH = 'models/skin_model_1.h5'
+load_model()
 
-# Load your trained model
-# model = load_model(MODEL_PATH)
-# model._make_predict_function()          # Necessary
-print('Model loaded. Start serving...')
-
-# You can also use pretrained model from Keras
-# Check https://keras.io/applications/
-model = ResNet50(weights='imagenet')
-print('Model loaded. Check http://127.0.0.1:5000/')
-
-
-def model_predict(img_path, model):
-    img = image.load_img(img_path, target_size=(224, 224))
-
-    # Preprocessing the image
-    x = image.img_to_array(img)
-    # x = np.true_divide(x, 255)
-    x = np.expand_dims(x, axis=0)
-
-    # Be careful how your trained model deals with the input
-    # otherwise, it won't make correct prediction!
-    x = preprocess_input(x, mode='caffe')
-
-    preds = model.predict(x)
-    return preds
+def prepare_image(img):
+    # Convert the image to a numpy array
+    img = image.img_to_array(img)
+    print(img)
+    # # Scale from 0 to 255
+    # img /= 255
+    # # Invert the pixels
+    # img = 1 - img
+    # # Flatten the image to an array of pixels
+    # image_array = img.flatten().reshape(-1, 28 * 28)
+    img = np.arange(27500).reshape(100,75)
+    img = img.reshape((img.shape[0]*75, 100,3))
+    # Return the processed feature array
+    return image_array
 
 
 @app.route('/', methods=['GET'])
@@ -113,24 +68,46 @@ def index():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
+    data = {"success": False}
     if request.method == 'POST':
-        # Get the file from post request
-        f = request.files['file']
+        print(request)
 
-        # Save the file to ./uploads
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+        if request.files.get('file'):
+            # read the file
+            file = request.files['file']
 
-        # Make prediction
-        preds = model_predict(file_path, model)
+            # read the filename
+            filename = file.filename
 
-        # Process your result for human
-        # pred_class = preds.argmax(axis=-1)            # Simple argmax
-        pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
-        result = str(pred_class[0][0][1])               # Convert to string
-        return result
+            # create a path to the uploads folder
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            # Save the file to the uploads folder
+            file.save(filepath)
+
+            # Load the saved image using Keras and resize it to the mnist
+            # format of 28x28 pixels
+            image_size = (275, 100, 3)
+            im = image.load_img(filepath, target_size=image_size,
+                                grayscale=True)
+
+            # Convert the 2D image to an array of pixel values
+            image_array = prepare_image(im)
+            print(image_array)
+
+            # Get the tensorflow default graph and use it to make predictions
+            global graph
+            with graph.as_default():
+
+                # Use the model to make a prediction
+                predicted_digit = model.predict_classes(image_array)[0]
+                data["prediction"] = str(predicted_digit)
+
+                # indicate that the request was a success
+                data["success"] = True
+
+            return jsonify(data)
+        
     return None
 
 
