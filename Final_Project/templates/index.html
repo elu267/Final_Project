@@ -42,9 +42,9 @@
                     <div class="main-menubar d-flex align-items-center">
                         <nav class="hide">
                             <a href="#home">Home</a>
-                            <a href="#service">Services</a>
+                            <a href="#service">About</a>
                             <a href="#appoinment">Appoinment</a>
-                            <a href="#consultant">Consultants</a>
+                            <a href="#consultant">Our Team</a>
                         </nav>
                         <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
                     </div>
@@ -60,12 +60,12 @@
             <div class="row fullscreen align-items-center justify-content-center">
                 <div class="banner-content col-lg-6 col-md-12">
                     <h1 class="text-uppercase">
-                        Skin cancer <br> self exam
+                        Skin Scan <br> self exam
                     </h1>
                     <p>
-                        Skin cancer is the most common typ eof cancer, but it's also one of the easiest kinds to treate if you catch it early.
+                        Skin cancer is the most common types of cancer, but it's also one of the easiest kinds to treate if you catch it early.
                     </p>
-                    <button class="primary-btn2 mt-20 text-uppercase ">Get Started<span class="lnr lnr-arrow-right"></span></button>
+                    <button class="primary-btn2 mt-20 text-uppercase " id="btn-predict">Get Started<span class="lnr lnr-arrow-right"></span></button>
                 </div>
                 <div class="col-lg-6 d-flex align-self-end img-right">
                     <img class="img-fluid" src="../static/img/header-img.png" alt="">
@@ -78,34 +78,34 @@
     <!-- start of upload section -->
     {% extends "base.html" %} {% block content %}
 
-    <h2>Does your skin growth necessitate a dermatologist visit?</h2>
+    <!-- <h2>Does your skin growth necessitate a dermatologist visit?</h2>
     <h4>Click to find out!</h4>
 
-    <div>
-        <!-- connected to /predict route that  -->
-        <form id="upload-file" method="post" enctype="multipart/form-data">
-            <label for="imageUpload" class="upload-label">
-          Choose...
+    <div> -->
+    <!-- connected to /predict route that  -->
+    <form id="upload-file" method="post" enctype="multipart/form-data">
+        <label for="imageUpload" class="upload-label">
+          <!-- Choose... -->
         </label>
-            <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
-        </form>
+        <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
+    </form>
 
-        <div class="image-section" style="display:none;">
-            <div class="img-preview">
-                <div id="imagePreview"></div>
-            </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-lg " id="btn-predict">
+    <div class="image-section" style="display:none;">
+        <div class="img-preview">
+            <div id="imagePreview"></div>
+        </div>
+        <!-- <div>
+            <button type="button" class="btn btn-primary btn-lg " id="btn-predict">
             Predict!
           </button>
-            </div>
-        </div>
+        </div> -->
+    </div>
 
-        <div class="loader" style="display:none;"></div>
+    <div class="loader" style="display:none;"></div>
 
-        <h3 id="result">
-            <span> </span>
-        </h3>
+    <h3 id="result">
+        <span> </span>
+    </h3>
     </div>
 
     {% endblock %}
@@ -117,34 +117,34 @@
                 <div class="col-lg-6">
                     <div class="single-feature d-flex flex-row pb-30">
                         <div class="icon">
-                            <span class="lnr lnr-rocket"></span>
+                            <span class="lnr lnr-heart-pulse"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">24/7 emergency</h4>
+                            <h4 class="text-uppercase">24/7 self scan</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                Unlimited self scans <br> all you need is a camera and a computer.
                             </p>
                         </div>
                     </div>
                     <div class="single-feature d-flex flex-row pb-30">
                         <div class="icon">
-                            <span class="lnr lnr-chart-bars"></span>
+                            <span class="lnr lnr-users"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">X-Ray Service</h4>
+                            <h4 class="text-uppercase">Referral Service</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                If you do not have a doctor or dermatologist <br> search for one in your area here.
                             </p>
                         </div>
                     </div>
                     <div class="single-feature d-flex flex-row">
                         <div class="icon">
-                            <span class="lnr lnr-bug"></span>
+                            <span class="lnr lnr-cog"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">Intensive Care</h4>
+                            <h4 class="text-uppercase">Current Model</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                A behind the scenes look at the technology <br> that drives our service.
                             </p>
                         </div>
                     </div>
@@ -152,12 +152,12 @@
                 <div class="col-lg-6">
                     <div class="single-feature d-flex flex-row pb-30">
                         <div class="icon">
-                            <span class="lnr lnr-heart-pulse"></span>
+                            <span class="lnr lnr-magnifier"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">24/7 emergency</h4>
+                            <h4 class="text-uppercase">Why Use Skin Scan?</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                To see how skin scan is helping to detect issues early <br> click here to learn more.
                             </p>
                         </div>
                     </div>
@@ -166,20 +166,20 @@
                             <span class="lnr lnr-paw"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">X-Ray Service</h4>
+                            <h4 class="text-uppercase">Lorem Ipsum</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                lorem ipsum, lorem ipsum, lorem ipsum, lorem ipsum <br> lorem ipsum, lorem ipsum, lorem ipsum, lorem ipsum.
                             </p>
                         </div>
                     </div>
                     <div class="single-feature d-flex flex-row">
                         <div class="icon">
-                            <span class="lnr lnr-users"></span>
+                            <span class="lnr lnr-laptop"></span>
                         </div>
                         <div class="desc">
-                            <h4 class="text-uppercase">Intensive Care</h4>
+                            <h4 class="text-uppercase">Additional Research</h4>
                             <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” <br> women face higher conduct women face higher conduct.
+                                Find the latest articles and skin heath discoveries <br> by visiting our library of research papers and articles.
                             </p>
                         </div>
                     </div>
@@ -231,14 +231,14 @@
     <section class="consultans-area section-gap" id="consultant">
         <div class="container">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-10 pb-80 header-text">
+                <div class="col-md-8 pb-80 header-text">
                     <h1>Our Team</h1>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> labore et dolore magna aliqua.
                     </p>
                 </div>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-lg-2 col-md-2 vol-wrap">
                     <div class="single-con">
                         <div class="content">
@@ -324,10 +324,11 @@
         </div>
     </section>
     <!-- End consultans Area -->
+
     <!-- start footer Area -->
     <footer class="footer-area section-gap">
         <div class="container">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-2  col-md-6">
                     <div class="single-footer-widget">
                         <h6>Top Products</h6>
@@ -373,7 +374,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row footer-bottom d-flex justify-content-between">
                 <p class="col-lg-8 col-sm-12 footer-text m-0">
