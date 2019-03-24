@@ -1,5 +1,8 @@
 # Final_Project
 
+## Objective
+The objective is...
+
 ## Overview
 This the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
 
@@ -58,19 +61,23 @@ Exploring the features of the data set:
 ![Types of Lesions](Final_Project/static/images/lesionTypes.png)
 ![Location of Lesions](Final_Project/static/images/lesionLocation.png)
 ![Age Distribution](Final_Project/static/images/ageDistribution.png)
-![Gender Distribution](Final_Project/static/images/genderlpng)
+![Gender Distribution](Final_Project/static/images/gender.png)
 
 Loading and resizing of images:
+
 ```skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((100,75))))```
 
-Add limitations of the data set and the steps taken to correct for those limitations
+One of the challenges with our chosen data set was the imbalance of the available images. There were four times as many benign images as there were malignant images.
 
 
-## Building and Training the Model
+### Step 3:  Building and Training the Model
+
+We used the ![Keras Sequential API](https://keras.io/getting-started/sequential-model-guide/) to build our convolutional neural network ("CNN"). The sequential model is a linear stack of layers. We chose to optimize the model using the Adam algorithm. This is an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. We chose to address this imbalance by using an oversampling technique to reduce the imbalance.
+
 * can over sample the set or undersample the set to deal with class imbalance
 * insert sample code + descriptions here
 
-## Testing the Model
+### Step 4: Testing the Model
 * insert sample code + descriptions here
 * insert model measurements here
 
