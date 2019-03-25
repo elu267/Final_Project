@@ -22,13 +22,21 @@ import pandas as pd
 import numpy as np
 
 # Keras
+# import keras
+# from keras.applications.imagenet_utils import preprocess_input, decode_predictions
+# from keras.models import load_model
+# from keras.preprocessing import image
+# from keras import backend as K
+# from keras.applications.resnet50 import ResNet50
+# from keras.preprocessing.image import img_to_array
+
 import keras
-from keras.applications.imagenet_utils import preprocess_input, decode_predictions
-from keras.models import load_model
 from keras.preprocessing import image
-from keras import backend as K
-from keras.applications.resnet50 import ResNet50
 from keras.preprocessing.image import img_to_array
+from keras.applications.xception import (
+    Xception, preprocess_input, decode_predictions)
+from keras import backend as K
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -37,14 +45,14 @@ model = None
 graph = None
 
 
-def load_model():
+def load_model1():
     global model
     global graph
     model = keras.models.load_model("models/skin_model_1.h5")
     graph = K.get_session().graph
 
 
-load_model()
+load_model1()
 
 
 def prepare_image(img):
@@ -83,19 +91,20 @@ def upload():
            # Load the saved image using Keras and resize it to the Xception
             # format of 299x299 pixels
             image_size = (75, 100)
-            im = keras.preprocessing.image.load_img(filepath,
-                                                    target_size=image_size,
-                                                    grayscale=False)
+            image = keras.preprocessing.image.load_img(filepath,
+                                                       target_size=image_size,
+                                                       grayscale=False)
 
             # preprocess the image and prepare it for classification
-            image = prepare_image(im)
+            image = prepare_image(image)
 
             global graph
             with graph.as_default():
                 preds = model.predict(image)
+                print(preds)
                 results = decode_predictions(preds)
                 # print the results
-                print(results)
+                print(preds)
 
                 data["predictions"] = []
 
@@ -114,7 +123,7 @@ def upload():
 
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=False, threaded=False)
+    app.run(port=5002, debug=True, threaded=False)
     #  app.run(debug=True)
 
     # Serve the app with gevent
