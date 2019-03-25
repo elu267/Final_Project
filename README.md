@@ -1,12 +1,17 @@
 # Final_Project
 
 ## Objective
-The objective is...
+Create a web application allowing anyone with a phone or computer to investigate skin abnormalities like moles. After submitting a photo to the app, a CNN model will evaluate the image against common conditions, recommending whether the user should visit a doctor and which condition(s) they are most likely to have. 
+
+*Disclaimer* This application and all code are provided as technical demonstration, not as medical product.
 
 ## Overview
-This the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
+This the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopic images which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
 
-#### Leision Types
+## Application Criteria
+We wanted our application to minimize false positive errors
+
+#### Lesion Types
 ##### nv:
 Melanocytic nevi are benign neoplasms of melanocytes and appear in a myriad of variants, which all are included in our series. The variants may differ significantly from a dermatoscopic point of view.
 ##### mel:
@@ -67,14 +72,14 @@ Loading and resizing of images:
 
 ```skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((100,75))))```
 
-One of the challenges with our chosen data set was the imbalance of the available images. There were four times as many benign images as there were malignant images.
+One of the challenges with our chosen data set was the imbalance of available images. There were four times as many benign images as there were malignant images, and some diagnosis categories had a relatively small number of samples. 
 
 
 ### Step 3:  Building and Training the Model
 
 We used the [Keras Sequential API](https://keras.io/getting-started/sequential-model-guide/) to build our convolutional neural network ("CNN"). The sequential model is a linear stack of layers. We chose to optimize the model using the Adam algorithm. This is an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. We chose to address this imbalance by using an oversampling technique to reduce the imbalance.
 
-* can over sample the set or undersample the set to deal with class imbalance
+* can oversample or undersample the dataset to deal with class imbalance
 * insert sample code + descriptions here
 
 ### Step 4: Testing the Model
