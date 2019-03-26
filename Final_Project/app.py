@@ -91,35 +91,33 @@ def upload():
            # Load the saved image using Keras and resize it to the Xception
             # format of 299x299 pixels
             image_size = (75, 100)
-            image = keras.preprocessing.image.load_img(filepath,
-                                                       target_size=image_size,
-                                                       grayscale=False)
+            im = keras.preprocessing.image.load_img(filepath,
+                                                    target_size=image_size,
+                                                    grayscale=False)
 
             # preprocess the image and prepare it for classification
-            image = prepare_image(image)
+            image = prepare_image(im)
 
             global graph
             with graph.as_default():
+
+                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
+                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
+
                 preds = model.predict(image)
-                print(preds)
-                results = decode_predictions(preds)
-                # print the results
-                print(preds)
+                # results = decode_predictions(preds)
 
-                data["predictions"] = []
+                result_df = pd.DataFrame(columns=['Label', "Prediction"])
 
-                # loop over the results and add them to the list of
-                # returned predictions
-                for (imagenetID, label, prob) in results[0]:
-                    r = {"label": label, "probability": float(prob)}
-                    data["predictions"].append(r)
+                for x, y in zip(preds[0], labels):
 
-                # indicate that the request was a success
-                data["success"] = True
+                    result_df = result_df.append(
+                        {'Label': y, 'Prediction': str(round(x*100, 4)) + "%"}, ignore_index=True)
 
-        return jsonify(data)
+            print(result_df)
+            # return jsonify(result_df)
 
-    return None
+            return None
 
 
 if __name__ == "__main__":
