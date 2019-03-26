@@ -118,15 +118,21 @@ def upload():
                 def keyfunction(k):
                     return dictionary[k]
 
+                top_label = []
+                top_pred = []
+
                 # sort by dictionary by the values and print top 3 {key, value} pairs
 
                 for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
                     print(key, dictionary[key])
-                    test = {key, dictionary[key]}
 
-                print(test)
+                #     print (key, dictionary[key])
+                    top_label.append(key)
+                    top_pred.append(dictionary[key])
 
-    return str(test)
+                    new_dict = dict(zip(top_label, top_pred))
+
+    return str(new_dict)
 
 
 if __name__ == "__main__":
