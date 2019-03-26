@@ -111,8 +111,14 @@ def upload():
 
                 for x, y in zip(preds[0], labels):
 
-                    result_df = result_df.append(
-                        {'Label': y, 'Prediction': str(round(x*100, 4)) + "%"}, ignore_index=True)
+                    # result_df = result_df.append(
+                    #     {'Label': y, 'Prediction': str(round(x*100, 4)) + "%"}, ignore_index=True)
+
+                    print(f"Label: {y}  Prediction: {str(round(x*100, 4))}%")
+                    predict = (
+                        f"Label: {y}  Prediction: {str(round(x*100, 4))}%")
+
+                    return(predict)
 
             print(result_df)
             # return jsonify(result_df)
