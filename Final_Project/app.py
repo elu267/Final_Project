@@ -21,15 +21,6 @@ import re
 import pandas as pd
 import numpy as np
 
-# Keras
-# import keras
-# from keras.applications.imagenet_utils import preprocess_input, decode_predictions
-# from keras.models import load_model
-# from keras.preprocessing import image
-# from keras import backend as K
-# from keras.applications.resnet50 import ResNet50
-# from keras.preprocessing.image import img_to_array
-
 import keras
 from keras.preprocessing import image
 from keras.preprocessing.image import img_to_array
@@ -107,23 +98,31 @@ def upload():
                 preds = model.predict(image)
                 # results = decode_predictions(preds)
 
-                result_df = pd.DataFrame(columns=['Label', "Prediction"])
+                # result_df = pd.DataFrame(columns=['Label', "Prediction"])
 
                 for x, y in zip(preds[0], labels):
 
                     # result_df = result_df.append(
-                    #     {'Label': y, 'Prediction': str(round(x*100, 4)) + "%"}, ignore_index=True)
+                    #     {'Label': y, 'Prediction': str(round(x*100, 4)) + "%",}, ignore_index=True)
 
-                    print(f"Label: {y}  Prediction: {str(round(x*100, 4))}%")
-                    predict = (
-                        f"Label: {y}  Prediction: {str(round(x*100, 4))}%")
+                    # result_df.sort_values(
+                    #     by=['Prediction'], ascending=False, inplace=True)
 
-                    return(predict)
+                    updated_preds = list(
+                        map(lambda x: str(round(x*100, 3)) + "%", preds[0]))
 
-            print(result_df)
-            # return jsonify(result_df)
+                    dictionary = dict(zip(labels, updated_preds))
 
-            return None
+                    # create a function which returns the value of a dictionary
+
+                def keyfunction(k):
+                    return dictionary[k]
+
+                # sort by dictionary by the values and print top 3 {key, value} pairs
+                for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
+                    print(key, dictionary[key])
+
+    return jsonify(dictionary)
 
 
 if __name__ == "__main__":

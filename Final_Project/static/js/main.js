@@ -168,11 +168,10 @@ $(document).ready(function() {
           $('.loader').hide()
           $('#result').fadeIn(600)
           $('#result').text(' Result:  ' + data)
+          // console.log(data)
           console.log('Success!')
         }
       })
     })
   })
-
-  console.log('this is still working right? or is it?')
 })
