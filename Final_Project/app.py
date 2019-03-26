@@ -102,12 +102,6 @@ def upload():
 
                 for x, y in zip(preds[0], labels):
 
-                    # result_df = result_df.append(
-                    #     {'Label': y, 'Prediction': str(round(x*100, 4)) + "%",}, ignore_index=True)
-
-                    # result_df.sort_values(
-                    #     by=['Prediction'], ascending=False, inplace=True)
-
                     updated_preds = list(
                         map(lambda x: str(round(x*100, 3)) + "%", preds[0]))
 
@@ -118,21 +112,17 @@ def upload():
                 def keyfunction(k):
                     return dictionary[k]
 
-                top_label = []
-                top_pred = []
+            global diagnosis
+            diagnosis = []
 
-                # sort by dictionary by the values and print top 3 {key, value} pairs
+            # sort by dictionary by the values and print top 3 {key, value} pairs
 
-                for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
-                    print(key, dictionary[key])
+            for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
+                print(key, dictionary[key])
 
-                #     print (key, dictionary[key])
-                    top_label.append(key)
-                    top_pred.append(dictionary[key])
+                diagnosis.append([key, dictionary[key]])
 
-                    new_dict = dict(zip(top_label, top_pred))
-
-    return str(new_dict)
+    return jsonify(diagnosis)
 
 
 if __name__ == "__main__":

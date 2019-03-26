@@ -165,13 +165,50 @@ $(document).ready(function() {
         async: true,
         success: function(data) {
           // Get and display the result
-          $('.loader').hide()
-          $('#result').fadeIn(600)
-          $('#result').text(' Result:  ' + data)
-          console.log(data)
+          // $('.loader').hide()
+          // $('#result').fadeIn(600)
+          // $('#result').text(' Result:  ' + data)
+          // console.log(data)
           console.log('Success!')
         }
       })
     })
+  })
+})
+
+// d3 to grab route data and append p tag
+
+description_tag = d3.select('#btn-predict')
+
+description_tag.on('click', function() {
+  url = '/predict'
+
+  d3.json(url, function(obj) {
+    console.log(obj)
+
+    first_name = obj[0][0]
+    first_name_val = obj[0][1]
+
+    second_name = obj[1][0]
+    second_name_val = obj[1][1]
+
+    third_name = obj[2][0]
+    third_name_val = obj[2][1]
+
+    console.log(
+      `Your diagnosis: There is a ${first_name_val} you may have ${first_name}, a ${second_name_val} you have ${first_name}, and ${third_name_val} it's ${third_name}`
+    )
+
+    function removeDiv() {
+      d3.select('#two').remove()
+      d3.select('#one')
+        .append('p')
+        .attr('id', 'myNewParagrap')
+        .append('text')
+        .text(
+          `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${first_name}, and ${third_name_val} it's ${third_name}.`
+        )
+    }
+    removeDiv()
   })
 })
