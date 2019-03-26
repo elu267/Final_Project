@@ -207,7 +207,7 @@ setTimeout(function() {
           .attr('id', 'myNewParagrap')
           .append('text')
           .text(
-            `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${first_name}, and ${third_name_val} it's ${third_name}.`
+            `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${second_name}, and ${third_name_val} it's ${third_name}.`
           )
       }
       removeDiv()

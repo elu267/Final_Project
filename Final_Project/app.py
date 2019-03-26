@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -92,35 +92,41 @@ def upload():
             global graph
             with graph.as_default():
 
-                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
-                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
+                labels = ['Melanocytic nevi','Melanoma','Benign keratosis-like lesions', 'Basal cell carcinoma',
+                        'Actinic keratoses','Vascular lesions','Dermatofibroma']
 
+                labels = tuple(labels)
+
+                global preds
                 preds = model.predict(image)
-                # results = decode_predictions(preds)
 
-                # result_df = pd.DataFrame(columns=['Label', "Prediction"])
+                # convert preds array to list
+                preds = preds.tolist()
 
-                for x, y in zip(preds[0], labels):
+                #convert list of lists to one list for rounding to work
+                flat_preds = [item for sublist in preds for item in sublist]
 
-                    updated_preds = list(
-                        map(lambda x: str(round(x*100, 3)) + "%", preds[0]))
+                updated_preds = list(map(lambda x : (round(x*100,3)), flat_preds))
 
-                    dictionary = dict(zip(labels, updated_preds))
+                dictionary = dict(zip(labels, updated_preds))
 
-                    # create a function which returns the value of a dictionary
-
+               
+                # create a function which returns the value of a dictionary
                 def keyfunction(k):
                     return dictionary[k]
+
 
             global diagnosis
             diagnosis = []
 
+
             # sort by dictionary by the values and print top 3 {key, value} pairs
-
             for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
-                print(key, dictionary[key])
+                
+                if dictionary[key] > 0:
+                    diagnosis.append([key, str(dictionary[key]) + "%"])
 
-                diagnosis.append([key, dictionary[key]])
+    
 
     return jsonify(diagnosis)
 
@@ -130,5 +136,5 @@ if __name__ == "__main__":
     #  app.run(debug=True)
 
     # Serve the app with gevent
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
