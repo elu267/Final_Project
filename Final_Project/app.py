@@ -119,10 +119,14 @@ def upload():
                     return dictionary[k]
 
                 # sort by dictionary by the values and print top 3 {key, value} pairs
+
                 for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
                     print(key, dictionary[key])
+                    test = {key, dictionary[key]}
 
-    return jsonify(dictionary)
+                print(test)
+
+    return str(test)
 
 
 if __name__ == "__main__":
