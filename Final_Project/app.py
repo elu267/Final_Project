@@ -129,8 +129,9 @@ def upload():
                 if dictionary[key] > 0:
                     diagnosis.append([key, str(dictionary[key]) + "%"])
 
-            return jsonify(diagnosis)
+        
     return jsonify(diagnosis)
+
 
 
 if __name__ == "__main__":

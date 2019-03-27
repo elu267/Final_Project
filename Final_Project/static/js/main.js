@@ -118,31 +118,31 @@ $(document).ready(function() {
 
     // Upload Preview
 
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-        // file reader that will accept blob data or file information
-        var reader = new FileReader()
-        // function to file or blob data
-        reader.onload = function(e) {
-          $('#imagePreview').css(
-            'background-image',
-            'url(' + e.target.result + ')'
-          )
-          $('#imagePreview').hide()
-          $('#imagePreview').fadeIn(650)
-        }
-        //   read the file data and output as URL
-        reader.readAsDataURL(input.files[0])
-      }
-    }
+    // function readURL(input) {
+    //   if (input.files && input.files[0]) {
+    //     // file reader that will accept blob data or file information
+    //     var reader = new FileReader()
+    //     // function to file or blob data
+    //     reader.onload = function(e) {
+    //       $('#imagePreview').css(
+    //         'background-image',
+    //         'url(' + e.target.result + ')'
+    //       )
+    //       $('#imagePreview').hide()
+    //       $('#imagePreview').fadeIn(650)
+    //     }
+    //     //   read the file data and output as URL
+    //     reader.readAsDataURL(input.files[0])
+    //   }
+    // }
     //   when the image is loaded through the bootstrap form the below will run and call the above function
     $('#imageUpload').change(function() {
-      $('.image-section').show()
+      // $('.image-section').show()
       $('#btn-predict').show()
-      $('#result').text('')
-      $('#result').hide()
+      // $('#result').text('')
+      // $('#result').hide()
       // call above function to process image to css background
-      readURL(this)
+      // readURL(this)
     })
 
     // // Predict
