@@ -187,29 +187,63 @@ setTimeout(function() {
     d3.json(url, function(obj) {
       console.log(obj)
 
-      first_name = obj[0][0]
-      first_name_val = obj[0][1]
+      if (obj.length == 3) {
+        first_name = obj[0][0]
+        first_name_val = obj[0][1]
 
-      second_name = obj[1][0]
-      second_name_val = obj[1][1]
+        second_name = obj[1][0]
+        second_name_val = obj[1][1]
 
-      third_name = obj[2][0]
-      third_name_val = obj[2][1]
+        third_name = obj[2][0]
+        third_name_val = obj[2][1]
 
-      console.log(
-        `Your diagnosis: There is a ${first_name_val} you may have ${first_name}, a ${second_name_val} you have ${first_name}, and ${third_name_val} it's ${third_name}`
-      )
+        // console.log(
+        //   `Your diagnosis: There is a ${first_name_val} you may have ${first_name}, a ${second_name_val} you have ${first_name}, and ${third_name_val} it's ${third_name}`
+        // )
 
-      function removeDiv() {
-        d3.select('#two').remove()
-        d3.select('#one')
-          .append('p')
-          .attr('id', 'myNewParagrap')
-          .append('text')
-          .text(
-            `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${second_name}, and ${third_name_val} it's ${third_name}.`
-          )
+        function removeDiv() {
+          d3.select('#two').remove()
+          d3.select('#one')
+            .append('p')
+            .attr('id', 'myNewParagrap')
+            .append('text')
+            .text(
+              `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${second_name}, and ${third_name_val} it's ${third_name}.`
+            )
+        }
+      } else if (obj.length == 2) {
+        first_name = obj[0][0]
+        first_name_val = obj[0][1]
+
+        second_name = obj[1][0]
+        second_name_val = obj[1][1]
+
+        function removeDiv() {
+          d3.select('#two').remove()
+          d3.select('#one')
+            .append('p')
+            .attr('id', 'myNewParagrap')
+            .append('text')
+            .text(
+              `Result: ${first_name_val} probabilty you have ${first_name}, or a ${second_name_val} you have ${second_name}.`
+            )
+        }
+      } else {
+        first_name = obj[0][0]
+        first_name_val = obj[0][1]
+
+        function removeDiv() {
+          d3.select('#two').remove()
+          d3.select('#one')
+            .append('p')
+            .attr('id', 'myNewParagrap')
+            .append('text')
+            .text(
+              `Result: ${first_name_val} probabilty you have ${first_name}.`
+            )
+        }
       }
+
       removeDiv()
     })
   }),
