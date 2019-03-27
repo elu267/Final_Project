@@ -4,29 +4,51 @@
 Create a web application that allows one to investigate skin abnormalities such as moles / lesions and determine whether they should visit with a doctor or dermatologist for further testing. 
 
 ## Overview
-This the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
+#### What is a mole? 
+A mole is officially called a: nevus ( nevi, plural ) in medical jargon.  According to the National Cancer Institute, most people have 10-40 nevi that are harmless.  The majority of pigmented skin lesions are NOT cancerous.  They can a variety of color: pink, tan, brown, black (in people with dark skin), or a color that is very close to a person’s normal skin tone. The color is usually even throughout.   They are usually round or oval. A common mole has a distinct edge that separates it from the rest of the skin. 
 
-#### Leision Types
-##### nv:
+Examples of benign skin pigments:
+* melasma
+* birthmarks
+* scars
+* post-inflammatory hyperpigmentation
+* lentigines
+* discoloration from sun damage
+* age spots
+
+Examples of malignant skin pigments:
+* basal cell carcinoma (BCC)
+* Actinic Keratoses (akiec) or squamous cell carcinoma (SCC)
+* melanoma
+
+#### What is Skin Cancer?
+Skin cancer is the uncontrolled growth of abnormal skin cells. It occurs when skin cells chromosomal DNA has been damaged by UV light triggering mutations, or genetic defects, that lead the skin cells to multiply uncontrollably to form malignant tumors.
+
+For our application, we leveraged the HAM10000 ("Human Against Machine with 10000 training images") dataset. It consists of 10,015 dermatoscopicimages which are released as a training set for academic machine learning purposes and are publiclyavailable through the ISIC archive. 
+
+#### Benign Lesion Types in the Dataset
+##### Common nevi (nv):
 Melanocytic nevi are benign neoplasms of melanocytes and appear in a myriad of variants, which all are included in our series. The variants may differ significantly from a dermatoscopic point of view.
 
-##### mel:
-Melanoma is a malignant neoplasm derived from melanocytes that may appear in different variants. If excised in an early stage it can be cured by simple surgical excision. Melanomas can be invasive or non-invasive (in situ). We included all variants of melanoma including melanoma in situ, but did exclude non-pigmented, subungual, ocular or mucosal melanoma.
-
-##### bkl:
+##### Benign keratosis (bkl):
 "Benign keratosis" is a generic class that includes seborrheic ker- atoses ("senile wart"), solar lentigo - which can be regarded a flat variant of seborrheic keratosis - and lichen-planus like keratoses (LPLK), which corresponds to a seborrheic keratosis or a solar lentigo with inflammation and regression.
 
-##### bcc:
-Basal cell carcinoma is a common variant of epithelial skin cancer that rarely metastasizes but grows destructively if untreated. It appears in different morphologic variants (flat, nodular, pigmented, cystic, etc), which are all included in this set.
-
-##### akiec:
-Actinic Keratoses (Solar Keratoses) and intraepithelial Carcinoma (Bowen’s disease) are common non-invasive, variants of squamous cell car- cinoma that can be treated locally without surgery. Some authors regard them as precursors of squamous cell carcinomas and not as actual carci- nomas.
-
-##### vasc:
+##### Vascular skin lesions (vasc):
 Vascular skin lesions in the dataset range from cherry angiomas to angiokeratomas and pyogenic granulomas. Hemorrhage is also included in this category.
 
-##### df:
+##### Dermatofibroma (df):
 Dermatofibroma is a benign skin lesion regarded as either a benign proliferation or an inflammatory reaction to minimal trauma. It is brown often showing a central zone of fibrosis dermatoscopically.
+
+#### Malignant Lesion Types in the dataset
+##### Melanoma (mel):
+Melanoma is a malignant neoplasm derived from melanocytes that may appear in different variants. If excised in an early stage, it can be cured by simple surgical excision. Melanomas can be invasive or non-invasive (in situ). 
+
+##### Basal cell carcinoma (bcc):
+Basal cell carcinoma is a common variant of epithelial skin cancer that rarely metastasizes but grows destructively if untreated. It appears in different morphologic variants (flat, nodular, pigmented, cystic, etc), which are all included in this set.
+
+##### Actinic Keratoses (akiec):
+Actinic Keratoses (Solar Keratoses) and intraepithelial Carcinoma (Bowen’s disease) are common non-invasive, variants of squamous cell carcinoma that can be treated locally without surgery. Some researches regard them as precursors of squamous cell carcinomas and not as actual carcinomas.
+
 
 ## Data Preparation
 
