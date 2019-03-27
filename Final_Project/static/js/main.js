@@ -187,6 +187,11 @@ setTimeout(function() {
     d3.json(url, function(obj) {
       console.log(obj)
 
+      // clear text in results diagnosis p tag if any.
+      d3.select('#myNewParagrap')
+        .remove()
+      
+
       if (obj.length == 3) {
         first_name = obj[0][0]
         first_name_val = obj[0][1]
@@ -247,5 +252,5 @@ setTimeout(function() {
       removeDiv()
     })
   }),
-    3000
+    30
 })

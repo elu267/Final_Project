@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -137,5 +137,5 @@ if __name__ == "__main__":
     app.run(port=5002, debug=True, threaded=False)
 
     # Serve the app with gevent
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
