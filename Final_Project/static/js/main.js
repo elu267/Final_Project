@@ -145,34 +145,34 @@ $(document).ready(function() {
       readURL(this)
     })
 
-    // Predict
-    $('#btn-predict').click(function() {
-      //FormData creates key value pairs
-      var form_data = new FormData($('#upload-file')[0])
+    // // Predict
+    // $('#btn-predict').click(function() {
+    //   //FormData creates key value pairs
+    //   var form_data = new FormData($('#upload-file')[0])
 
-      // Show loading animation
-      $(this).hide()
-      $('.loader').show()
+    //   // Show loading animation
+    //   $(this).hide()
+    //   $('.loader').show()
 
-      // Make prediction by calling api /predict
-      $.ajax({
-        type: 'POST',
-        url: '/predict',
-        data: form_data,
-        contentType: false,
-        cache: false,
-        processData: false,
-        async: true,
-        success: function(data) {
-          // Get and display the result
-          // $('.loader').hide()
-          // $('#result').fadeIn(600)
-          // $('#result').text(' Result:  ' + data)
-          // console.log(data)
-          console.log('Success!')
-        }
-      })
-    })
+    //   // Make prediction by calling api /predict
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: '/predict',
+    //     data: form_data,
+    //     contentType: false,
+    //     cache: false,
+    //     processData: false,
+    //     async: true,
+    //     success: function(data) {
+    //       // Get and display the result
+    //       // $('.loader').hide()
+    //       // $('#result').fadeIn(600)
+    //       // $('#result').text(' Result:  ' + data)
+    //       // console.log(data)
+    //       console.log('Success!')
+    //     }
+    //   })
+    // })
   })
 })
 
@@ -213,5 +213,5 @@ setTimeout(function() {
       removeDiv()
     })
   }),
-    30000000
+    3000
 })

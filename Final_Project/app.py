@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
-# from gevent.pywsgi import WSGIServer
+from gevent.pywsgi import WSGIServer
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -62,7 +62,7 @@ def index():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
-    data = {"success": False}
+    # data = {"success": False}
     if request.method == 'POST':
         print(request)
 
@@ -71,10 +71,14 @@ def upload():
             file = request.files['file']
 
             # read the filename
-            filename = file.filename
+            # filename = file.filename
 
             # create a path to the uploads folder
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            basepath = os.path.dirname(__file__)
+            filepath = os.path.join(
+                basepath, 'uploads', secure_filename(file.filename))
 
             # Save the file to the uploads folder
             file.save(filepath)
@@ -92,8 +96,8 @@ def upload():
             global graph
             with graph.as_default():
 
-                labels = ['Melanocytic nevi','Melanoma','Benign keratosis-like lesions', 'Basal cell carcinoma',
-                        'Actinic keratoses','Vascular lesions','Dermatofibroma']
+                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
+                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
 
                 labels = tuple(labels)
 
@@ -103,38 +107,35 @@ def upload():
                 # convert preds array to list
                 preds = preds.tolist()
 
-                #convert list of lists to one list for rounding to work
+                # convert list of lists to one list for rounding to work
                 flat_preds = [item for sublist in preds for item in sublist]
 
-                updated_preds = list(map(lambda x : (round(x*100,3)), flat_preds))
+                updated_preds = list(
+                    map(lambda x: (round(x*100, 3)), flat_preds))
 
                 dictionary = dict(zip(labels, updated_preds))
 
-               
                 # create a function which returns the value of a dictionary
+
                 def keyfunction(k):
                     return dictionary[k]
-
 
             global diagnosis
             diagnosis = []
 
-
             # sort by dictionary by the values and print top 3 {key, value} pairs
             for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
-                
+
                 if dictionary[key] > 0:
                     diagnosis.append([key, str(dictionary[key]) + "%"])
 
-    
-
+            return jsonify(diagnosis)
     return jsonify(diagnosis)
 
 
 if __name__ == "__main__":
     app.run(port=5002, debug=True, threaded=False)
-    #  app.run(debug=True)
 
     # Serve the app with gevent
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
