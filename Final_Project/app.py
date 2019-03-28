@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -21,42 +21,37 @@ import re
 import pandas as pd
 import numpy as np
 
-# Keras
-from keras.applications.imagenet_utils import preprocess_input, decode_predictions
-from keras.models import load_model
+import keras
 from keras.preprocessing import image
-from keras.applications.resnet50 import ResNet50
+from keras.preprocessing.image import img_to_array
+from keras.applications.xception import (
+    Xception, preprocess_input, decode_predictions)
+from keras import backend as K
+
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
-# Model saved with Keras model.save()
-MODEL_PATH = 'models/skin_model_1.h5'
-
-# Load your trained model
-# model = load_model(MODEL_PATH)
-# model._make_predict_function()          # Necessary
-print('Model loaded. Start serving...')
-
-# You can also use pretrained model from Keras
-# Check https://keras.io/applications/
-model = ResNet50(weights='imagenet')
-print('Model loaded. Check http://127.0.0.1:5000/')
+model = None
+graph = None
 
 
-def model_predict(img_path, model):
-    img = image.load_img(img_path, target_size=(224, 224))
+def load_model1():
+    global model
+    global graph
+    model = keras.models.load_model("models/skin_model_1.h5")
+    graph = K.get_session().graph
 
-    # Preprocessing the image
-    x = image.img_to_array(img)
-    # x = np.true_divide(x, 255)
-    x = np.expand_dims(x, axis=0)
 
-    # Be careful how your trained model deals with the input
-    # otherwise, it won't make correct prediction!
-    x = preprocess_input(x, mode='caffe')
+load_model1()
 
-    preds = model.predict(x)
-    return preds
+
+def prepare_image(img):
+    img = img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+    img = preprocess_input(img)
+    # return the processed image
+    return img
 
 
 @app.route('/', methods=['GET'])
@@ -67,31 +62,81 @@ def index():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
+    # data = {"success": False}
     if request.method == 'POST':
-        # Get the file from post request
-        f = request.files['file']
+        print(request)
 
-        # Save the file to ./uploads
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+        if request.files.get('file'):
+            # read the file
+            file = request.files['file']
 
-        # Make prediction
-        preds = model_predict(file_path, model)
+            # read the filename
+            # filename = file.filename
 
-        # Process your result for human
-        # pred_class = preds.argmax(axis=-1)            # Simple argmax
-        pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
-        result = str(pred_class[0][0][1])               # Convert to string
-        return result
-    return None
+            # create a path to the uploads folder
+            # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            basepath = os.path.dirname(__file__)
+            filepath = os.path.join(
+                basepath, 'uploads', secure_filename(file.filename))
+
+            # Save the file to the uploads folder
+            file.save(filepath)
+
+           # Load the saved image using Keras and resize it to the Xception
+            # format of 299x299 pixels
+            image_size = (75, 100)
+            im = keras.preprocessing.image.load_img(filepath,
+                                                    target_size=image_size,
+                                                    grayscale=False)
+
+            # preprocess the image and prepare it for classification
+            image = prepare_image(im)
+
+            global graph
+            with graph.as_default():
+
+                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
+                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
+
+                labels = tuple(labels)
+
+                global preds
+                preds = model.predict(image)
+
+                # convert preds array to list
+                preds = preds.tolist()
+
+                # convert list of lists to one list for rounding to work
+                flat_preds = [item for sublist in preds for item in sublist]
+
+                updated_preds = list(
+                    map(lambda x: (round(x*100, 3)), flat_preds))
+
+                dictionary = dict(zip(labels, updated_preds))
+
+                # create a function which returns the value of a dictionary
+
+                def keyfunction(k):
+                    return dictionary[k]
+
+            global diagnosis
+            diagnosis = []
+
+            # sort by dictionary by the values and print top 3 {key, value} pairs
+            for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
+
+                if dictionary[key] > 0:
+                    diagnosis.append([key, str(dictionary[key]) + "%"])
+
+        
+    return jsonify(diagnosis)
+
 
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=False, threaded=False)
-    #  app.run(debug=True)
+    app.run(port=5002, debug=True, threaded=False)
 
     # Serve the app with gevent
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
