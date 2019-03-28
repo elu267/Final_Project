@@ -109,7 +109,12 @@ We used the [Keras Sequential API](https://keras.io/getting-started/sequential-m
 * insert model measurements here
 
 ## Conclusion
-* Overall, we achieved xx% accuracy. Future work includes blah blah blah blah and blah.
+* Overall, we achieved xx% accuracy. 
+
+## Future work
+* Investigate the use of Region-CNN model to segment the images for the area around each lesion, and then perform a CNN. This should reduce extraneous information fed into the model.
+* Use more images to train the model, both for current categories of disease, and for new categories of disease (like Acral lentiginous melanoma). Some of this data is paid, and others require agreements with a university.
+* Test how cell phone images of lesions perform in the model. As cell phone images are lower quality and apt to have more skin reflections, the model would need to be further tuned for this application.
 
 ## Deployment: Try it Yourself
 A working prototype can be found here: [Heroku](https://lesionlegion.herokuapp.com)
