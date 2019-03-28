@@ -17,6 +17,7 @@
     <!-- Site Title -->
     <title>SkinScan</title>
 
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
 			CSS
@@ -37,7 +38,7 @@
             <div class="header-wrap">
                 <div class="header-top d-flex justify-content-between align-items-center">
                     <div class="logo">
-                        <a href="#home"><img src="../static/img/logo.png" alt=""></a>
+                        <a href="#home"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
                     </div>
                     <div class="main-menubar d-flex align-items-center">
                         <nav class="hide">
@@ -62,48 +63,55 @@
                     <h1 class="text-uppercase">
                         Skin Scan <br> self exam
                     </h1>
+
                     <!-- blank div to append diagnosis after analyze button is clicked.  -->
                     <div id="one">
                     </div>
                     <!-- this div will be removed on click of analyze button -->
                     <div id="two">
-                        <p>
-                            Skin cancer is the most common type of cancer, but it's also one of the easiest kinds to treate if you catch it early.
-                        </p>
-
-
-
+                    <p>
+                        Skin cancer is the most common type of cancer, but it's also one of the easiest kinds to treate if you catch it early.
+                    </p>
                     </div>
-
+                
                     <!-- Click to upload image -->
                     <form id="upload-file" method="post" enctype="multipart/form-data">
                         <label for="imageUpload" class="upload-label">
-            Upload Image
-          </label>
-                        <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                Upload Image
+                                </label>
+                        <input
+                        type="file"
+                        name="file"
+                        id="imageUpload"
+                        accept=".png, .jpg, .jpeg"
+                        />
                     </form>
 
                     <!-- button to analyze image -->
 
                     <div class="image-section" style="display:none;">
-                        <div class="img-preview">
-                            <div id="imagePreview"></div>
-                        </div>
-                        <div>
+                            <div class="img-preview">
+                                <div id="imagePreview"></div>
+                            </div>
+                            <div>
                             <button class="primary-btn2 mt-20 text-uppercase " id="btn-predict">Analyze<span class="lnr lnr-arrow-right"></span></button>
-                        </div>
+                            </div>
+                                
+                                </button>
+                            </div>
+                            </div>
+                        
+                            <div class="loader" style="display:none;"></div>
+                        
+                            <div id="test"></div>
 
-                        </button>
-                    </div>
-                </div>
+                
 
-                <div class="loader" style="display:none;"></div>
-
-                <div id="test"></div>
+                 
 
 
                 <div class="col-lg-6 d-flex align-self-end img-right">
-                    <img class="img-fluid" src="../static/img/header-img.png" alt="">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/header-img.png') }}" alt="">
                 </div>
             </div>
         </div>
@@ -195,7 +203,7 @@
         <div class="container-fluid">
             <div class="row d-flex justify-content-end align-items-center">
                 <div class="col-lg-6 col-md-12 about-left no-padding">
-                    <img class="img-fluid" src="../static/img/about-img.jpg" alt="">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/about-img.jpg') }}" alt="">
                 </div>
                 <div class="col-lg-6 col-md-12 about-right no-padding">
                     <h1>Book an <br> Appoinment</h1>
@@ -244,7 +252,7 @@
                         <div class="content">
                             <a href="#" target="_blank">
                                 <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto" src="../static/img/c1.jpg" alt="">
+                                <img class="content-image img-fluid d-block mx-auto" src="{{ url_for('static', filename='img/c1.jpg') }}" alt="">
                                 <div class="content-details fadeIn-bottom">
                                     <h4>James Curtis</h4>
                                     <p>
@@ -260,7 +268,7 @@
                         <div class="content">
                             <a href="#" target="_blank">
                                 <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto" src="../static/img/c3.jpg" alt="">
+                                <img class="content-image img-fluid d-block mx-auto" src="{{ url_for('static', filename='img/c3.jpg') }}" alt="">
                                 <div class="content-details fadeIn-bottom">
                                     <h4>Austen Manser</h4>
                                     <p>
@@ -276,7 +284,7 @@
                         <div class="content">
                             <a href="#" target="_blank">
                                 <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto" src="../static/img/c1.jpg" alt="">
+                                <img class="content-image img-fluid d-block mx-auto" src="{{ url_for('static', filename='img/c1.jpg') }}" alt="">
                                 <div class="content-details fadeIn-bottom">
                                     <h4>Bill Nash</h4>
                                     <p>
@@ -292,7 +300,7 @@
                         <div class="content">
                             <a href="#" target="_blank">
                                 <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto" src="../static/img/c3.jpg" alt="">
+                                <img class="content-image img-fluid d-block mx-auto" src="{{ url_for('static', filename='img/c3.jpg') }}" alt="">
                                 <div class="content-details fadeIn-bottom">
                                     <h4>Emanshu Patel</h4>
                                     <p>
@@ -308,7 +316,7 @@
                         <div class="content">
                             <a href="#" target="_blank">
                                 <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto" src="../static/img/c2.jpg" alt="">
+                                <img class="content-image img-fluid d-block mx-auto" src="{{ url_for('static', filename='img/c2.jpg') }}" alt="">
                                 <div class="content-details fadeIn-bottom">
                                     <h4>Erica Unterreiner</h4>
                                     <p>
@@ -349,19 +357,19 @@
     <!-- End footer Area -->
 
     <!-- start of scripts -->
-    <script src="../static/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="{{ url_for('static', filename='js/vendor/jquery-2.2.4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="../static/js/vendor/bootstrap.min.js"></script>
-    <script src="../static/js/jquery.ajaxchimp.min.js"></script>
-    <script src="../static/js/jquery.nice-select.min.js"></script>
-    <script src="../static/js/jquery.sticky.js"></script>
-    <script src="../static/js/parallax.min.js"></script>
+    <script src="{{ url_for('static', filename='js/vendor/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/parallax.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="../static/js/jquery.magnific-popup.min.js"></script>
-    <script src="../static/js/waypoints.min.js"></script>
-    <script src="../static/js/jquery.counterup.min.js"></script>
-    <script src="../static/js/main.js"></script>
-    <script src="../static/js/app.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>

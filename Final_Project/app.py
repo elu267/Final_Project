@@ -39,7 +39,7 @@ graph = None
 def load_model1():
     global model
     global graph
-    model = keras.models.load_model("models/skin_model_1.h5")
+    model = keras.models.load_model("models/skin_model_delta.h5")
     graph = K.get_session().graph
 
 
@@ -129,9 +129,7 @@ def upload():
                 if dictionary[key] > 0:
                     diagnosis.append([key, str(dictionary[key]) + "%"])
 
-        
     return jsonify(diagnosis)
-
 
 
 if __name__ == "__main__":
