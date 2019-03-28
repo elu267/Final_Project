@@ -1,57 +1,50 @@
 from __future__ import division, print_function
-
-# import necessary libraries
-from flask import Flask, jsonify, render_template, redirect, url_for, request
-from flask_sqlalchemy import SQLAlchemy
-
-from werkzeug.utils import secure_filename
-# from gevent.pywsgi import WSGIServer
-
-import sqlalchemy
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-
-
 # coding=utf-8
 import sys
 import os
 import glob
 import re
-import pandas as pd
 import numpy as np
 
-import keras
-from keras.preprocessing import image
-from keras.preprocessing.image import img_to_array
+# Keras
 from keras.applications.xception import (
     Xception, preprocess_input, decode_predictions)
-from keras import backend as K
+from keras.models import load_model
+from keras.preprocessing import image
+from keras.preprocessing.image import img_to_array
 
+# Flask utils
+from flask import Flask, redirect, url_for, request, render_template, jsonify
+from werkzeug.utils import secure_filename
+from gevent.pywsgi import WSGIServer
 
+# Define a flask app
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
 
-model = None
-graph = None
+# Model saved with Keras model.save()
+MODEL_PATH = 'models/skin_model_1.h5'
+
+# Load your trained model
+model = load_model(MODEL_PATH)
+model._make_predict_function()          # Necessary
+print('Model loaded. Start serving...')
+
+# # You can also use pretrained model from Keras
+# # Check https://keras.io/applications/
+# from keras.applications.resnet50 import ResNet50
+# model = ResNet50(weights='imagenet')
+# print('Model loaded. Check http://127.0.0.1:5000/')
 
 
-def load_model1():
-    global model
-    global graph
-    model = keras.models.load_model("models/skin_model_1.h5")
-    graph = K.get_session().graph
+def model_predict(img_path, model):
+    img = image.load_img(img_path, target_size=(75, 100), grayscale=False)
 
-
-load_model1()
-
-
-def prepare_image(img):
     img = img_to_array(img)
     img = np.expand_dims(img, axis=0)
     img = preprocess_input(img)
-    # return the processed image
-    return img
+
+    preds = model.predict(img)
+    return preds
 
 
 @app.route('/', methods=['GET'])
@@ -62,79 +55,53 @@ def index():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
-    # data = {"success": False}
     if request.method == 'POST':
-        print(request)
 
-        if request.files.get('file'):
-            # read the file
-            file = request.files['file']
+        # Get the file from post request
+        f = request.files['file']
 
-            # read the filename
-            # filename = file.filename
+        # Save the file to ./uploads
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join(
+            basepath, 'uploads', secure_filename(f.filename))
+        f.save(file_path)
 
-            # create a path to the uploads folder
-            # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
+                  'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
 
-            basepath = os.path.dirname(__file__)
-            filepath = os.path.join(
-                basepath, 'uploads', secure_filename(file.filename))
+        labels = tuple(labels)
 
-            # Save the file to the uploads folder
-            file.save(filepath)
+        # Make prediction
+        preds = model_predict(file_path, model)
 
-           # Load the saved image using Keras and resize it to the Xception
-            # format of 299x299 pixels
-            image_size = (75, 100)
-            im = keras.preprocessing.image.load_img(filepath,
-                                                    target_size=image_size,
-                                                    grayscale=False)
+        preds = preds.tolist()
 
-            # preprocess the image and prepare it for classification
-            image = prepare_image(im)
+        # convert list of lists to one list for rounding to work
+        flat_preds = [item for sublist in preds for item in sublist]
 
-            global graph
-            with graph.as_default():
+        updated_preds = list(
+            map(lambda x: (round(x*100, 3)), flat_preds))
 
-                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
-                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
+        dictionary = dict(zip(labels, updated_preds))
 
-                labels = tuple(labels)
+        # create a function which returns the value of a dictionary
 
-                global preds
-                preds = model.predict(image)
+        def keyfunction(k):
+            return dictionary[k]
 
-                # convert preds array to list
-                preds = preds.tolist()
+        global diagnosis
+        diagnosis = []
 
-                # convert list of lists to one list for rounding to work
-                flat_preds = [item for sublist in preds for item in sublist]
+        # sort by dictionary by the values and print top 3 {key, value} pairs
+        for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
 
-                updated_preds = list(
-                    map(lambda x: (round(x*100, 3)), flat_preds))
+            if dictionary[key] > 0:
+                diagnosis.append([key, str(dictionary[key]) + "%"])
 
-                dictionary = dict(zip(labels, updated_preds))
-
-                # create a function which returns the value of a dictionary
-
-                def keyfunction(k):
-                    return dictionary[k]
-
-            global diagnosis
-            diagnosis = []
-
-            # sort by dictionary by the values and print top 3 {key, value} pairs
-            for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
-
-                if dictionary[key] > 0:
-                    diagnosis.append([key, str(dictionary[key]) + "%"])
-
-        
     return jsonify(diagnosis)
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(port=5002, debug=True, threaded=False)
 
     # Serve the app with gevent
