@@ -102,14 +102,44 @@ One of the challenges with our chosen data set was the imbalance of the availabl
 
 We used the [Keras Sequential API](https://keras.io/getting-started/sequential-model-guide/) to build our convolutional neural network ("CNN"). The sequential model is a linear stack of layers. We chose to optimize the model using the Adam algorithm. This is an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. We chose to address this imbalance by using an oversampling technique to reduce the imbalance.
 
-* insert sample code + descriptions here
+```
+input_shape = (75, 100, 3)
+num_classes = 7
+
+model = Sequential()
+model.add(Conv2D(256, kernel_size=(3, 3),activation='relu',input_shape=input_shape,padding='same'))
+model.add(Conv2D(256, (3, 3), activation='relu',padding='same'))
+model.add(LeakyReLU(alpha=0.1))
+model.add(MaxPool2D((2, 2),padding='same'))
+model.add(Conv2D(256, (3, 3), activation='relu',padding='same'))
+model.add(LeakyReLU(alpha=0.1))
+model.add(MaxPool2D(pool_size=(2, 2),padding='same'))
+model.add(Conv2D(256, (3, 3), activation='relu',padding='same'))
+model.add(LeakyReLU(alpha=0.1))                  
+model.add(MaxPool2D(pool_size=(2, 2),padding='same'))
+
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(LeakyReLU(alpha=0.1)) 
+model.add(Dense(128, activation='relu'))
+model.add(Dense(num_classes, activation='softmax')) 
+
+optimizer = Adam(lr=0.00005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+model.compile(optimizer = optimizer , loss = "categorical_crossentropy", metrics=["accuracy"])
+```
 
 ### Step 4: Testing the Model
-* insert sample code + descriptions here
-* insert model measurements here
+```
+loss, accuracy = skin_model.evaluate(x_test, y_test, verbose=1)
+loss_v, accuracy_v = skin_model.evaluate(x_validate, y_validate, verbose=1)
+print("Validation: accuracy = %f  ;  loss_v = %f" % (accuracy_v, loss_v))
+print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
+```
+![Model Measurements](Final_Project/static/images/modelAccuracy.png)
+![Confusion Matrix](Final_Project/static/images/confusionMatrix.png)
 
 ## Conclusion
-* Overall, we achieved xx% accuracy. 
+* Overall, we achieved 82% accuracy. 
 
 ## Future work
 * Investigate the use of Region-CNN model to segment the images for the area around each lesion, and then perform a CNN. This should reduce extraneous information fed into the model.
