@@ -129,7 +129,7 @@ model.add(Dense(num_classes, activation='softmax'))
 optimizer = Adam(lr=0.00005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model.compile(optimizer = optimizer , loss = "categorical_crossentropy", metrics=["accuracy"])
 ```
-![Model Architecture](Final_project/static/images/CNN_Architecture_2.png)
+![Model Architecture](Final_Project/static/images/CNN_Architecture_2.png)
 
 ### Step 4: Testing the Model
 ```
