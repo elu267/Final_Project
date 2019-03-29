@@ -5,15 +5,11 @@ from flask import Flask, jsonify, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
-# from gevent.pywsgi import WSGIServer
-
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 
-
-# coding=utf-8
 import sys
 import os
 import glob
@@ -34,7 +30,6 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 
 model = None
 graph = None
-
 
 def load_model1():
     global model
@@ -62,6 +57,7 @@ def index():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
+    diagnosis = []
     # data = {"success": False}
     if request.method == 'POST':
         print(request)
@@ -70,12 +66,7 @@ def upload():
             # read the file
             file = request.files['file']
 
-            # read the filename
-            # filename = file.filename
-
             # create a path to the uploads folder
-            # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
             basepath = os.path.dirname(__file__)
             filepath = os.path.join(
                 basepath, 'uploads', secure_filename(file.filename))
@@ -83,8 +74,7 @@ def upload():
             # Save the file to the uploads folder
             file.save(filepath)
 
-           # Load the saved image using Keras and resize it to the Xception
-            # format of 299x299 pixels
+            # Load the saved image using Keras and resize it 
             image_size = (75, 100)
             im = keras.preprocessing.image.load_img(filepath,
                                                     target_size=image_size,
@@ -120,20 +110,20 @@ def upload():
                 def keyfunction(k):
                     return dictionary[k]
 
-            global diagnosis
-            diagnosis = []
-
             # sort by dictionary by the values and print top 3 {key, value} pairs
             for key in sorted(dictionary, key=keyfunction, reverse=True)[:3]:
 
                 if dictionary[key] > 0:
                     diagnosis.append([key, str(dictionary[key]) + "%"])
+                    
+            print(diagnosis)
+            return jsonify(diagnosis)
 
     return jsonify(diagnosis)
 
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=True, threaded=False)
+    app.run(port=5002, debug=False, threaded=False)
 
     # Serve the app with gevent
     # http_server = WSGIServer(('', 5000), app)
