@@ -151,7 +151,7 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 * Test how cell phone images of lesions perform in the model. As cell phone images are lower quality and apt to have more skin reflections, the model would need to be further tuned for this application.
 
 ## Deployment: Try it Yourself
-A working prototype can be found here: [Lesion Legion](https://lesionlegion.com)
+A working prototype can be found here: [Lesion Legion](http://www.lesionlegion.com)
 
 ## Project Team Members
 
