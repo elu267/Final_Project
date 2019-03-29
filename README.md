@@ -95,6 +95,8 @@ Loading and resizing of images:
 
 ```skin_df['image'] = skin_df['path'].map(lambda x: np.asarray(Image.open(x).resize((100,75))))```
 
+![Image Samples](Final_Project/static/images/categorySamples.png)
+
 One of the challenges with our chosen data set was the imbalance of the available images. There were four times as many benign images as there were malignant images. We addressed this using an oversampling technique to augment our training image set.
 
 
@@ -138,6 +140,14 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 ![Model Measurements](Final_Project/static/images/modelAccuracy.png)
 ![Confusion Matrix](Final_Project/static/images/confusionMatrix.png)
 
+* 0 = nv
+* 1 = mel
+* 2 = bkl
+* 3 = bcc
+* 4 = akiec
+* 5 = vasc
+* 6 = df
+
 ## Conclusion
 * Overall, we achieved 82% accuracy. 
 
@@ -147,7 +157,7 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 * Test how cell phone images of lesions perform in the model. As cell phone images are lower quality and apt to have more skin reflections, the model would need to be further tuned for this application.
 
 ## Deployment: Try it Yourself
-A working prototype can be found here: [Heroku](https://lesionlegion.herokuapp.com)
+A working prototype can be found here: [Lesion Legion](https://lesionlegion.com)
 
 ## Project Team Members
 
