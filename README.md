@@ -140,15 +140,7 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 ![Model Measurements](Final_Project/static/images/modelAccuracy.png)
 ![Confusion Matrix](Final_Project/static/images/confusionMatrix.png)
 
-No | Label
-__ | _____
-0 | nv
-1 | mel
-2 | bkl
-3 | bcc
-4 | akiec
-5 | vasc
-6 | df
+(0 = nv, 1 = mel, 2 = bkl, 3 = bcc, 4 = akiec, 5 = vasc, 6 = df)
 
 ## Conclusion
 * Overall, we achieved 82% accuracy. 
