@@ -86,9 +86,9 @@ from sklearn.model_selection import train_test_split
 Check for missing information `<skin_df.isnull().sum()>`. Only the age column has missing values; therefore, fill in missing values `<skin_df['age'].fillna((skin_df['age'].mean()), inplace=True)>`. 
 
 Exploring the features of the data set:
-![Diagnostics])Final_Project/static/images/diagnostic_counts_updated.png)
+![Diagnostics](Final_Project/static/images/diagnostic_counts_updated.png)
 ![Types of Lesions](Final_Project/static/images/category_counts_updated.png)
-![Location of Lesions](Final_Project/static/images/localization_counts_updated.png)
+![Location of Lesions](Final_Project/static/images/localization_count_updated.png)
 ![Age Distribution](Final_Project/static/images/gender2.png)
 
 
