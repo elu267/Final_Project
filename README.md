@@ -51,7 +51,7 @@ Actinic Keratoses (Solar Keratoses) and intraepithelial Carcinoma (Bowen’s dis
 
 ## Application Architecture
 <p align="center">
-![App Architecture](Final_Project/static/images/Lesion_Legion_App_Architecture_final.png)
+ <img src="https://github.com/elu267/Final_Project/blob/master/Final_Project/static/images/Lesion_Legion_App_Architecture_final.png" width="256" height="256" title="app architecture">
 </p>
 ## Data Preparation
 
