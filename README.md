@@ -50,7 +50,7 @@ Basal cell carcinoma is a common variant of epithelial skin cancer that rarely m
 Actinic Keratoses (Solar Keratoses) and intraepithelial Carcinoma (Bowen’s disease) are common non-invasive, variants of squamous cell carcinoma that can be treated locally without surgery. Some researches regard them as precursors of squamous cell carcinomas and not as actual carcinomas.
 
 ## Application Architecture
- <img src="https://github.com/elu267/Final_Project/blob/master/Final_Project/static/images/Lesion_Legion_App_Architecture_final.png" width="1024" height="512" title="app architecture">
+![App Architecture](Final_Project/static/images/Lesion_Legion_App_Architecture_bigger.png)
 ## Data Preparation
 
 ### Step 1: Importing Libraries
