@@ -18,7 +18,7 @@ Examples of benign skin pigments:
 
 Examples of malignant skin pigments:
 * basal cell carcinoma (BCC)
-* Actinic Keratoses (akiec) or squamous cell carcinoma (SCC)
+* actinic keratoses (akiec) or squamous cell carcinoma (SCC)
 * melanoma
 
 #### What is Skin Cancer?
