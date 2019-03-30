@@ -144,7 +144,7 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 (0 = nv, 1 = mel, 2 = bkl, 3 = bcc, 4 = akiec, 5 = vasc, 6 = df)
 
 ## Conclusion
-* Overall, we achieved 82% accuracy. 
+* Overall, we achieved 82% categorical accuracy. Our false negative rate (representing missed malignant lesions) for the validation dataset was 18.6%. 
 
 ## Future work
 * Investigate the use of Region-CNN model to segment the images for the area around each lesion, and then perform a CNN. This should reduce extraneous information fed into the model.
