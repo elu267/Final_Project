@@ -88,8 +88,8 @@ Check for missing information `<skin_df.isnull().sum()>`. Only the age column ha
 Exploring the features of the data set:
 ![Types of Lesions](Final_Project/static/images/lesionTypes.png)
 ![Location of Lesions](Final_Project/static/images/lesionLocation.png)
-![Age Distribution](Final_Project/static/images/ageDistribution.png)
-![Gender Distribution](Final_Project/static/images/gender.png)
+![Age Distribution](Final_Project/static/images/gender2.png)
+
 
 Loading and resizing of images:
 
