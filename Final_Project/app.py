@@ -86,8 +86,8 @@ def upload():
             global graph
             with graph.as_default():
 
-                labels = ['Melanocytic nevi', 'Melanoma', 'Benign keratosis-like lesions', 'Basal cell carcinoma',
-                          'Actinic keratoses', 'Vascular lesions', 'Dermatofibroma']
+                labels = ['Melanocytic nevi (Benign)', 'Melanoma (Malignant)', 'Benign keratosis-like lesions (Benign)', 'Basal cell carcinoma (Malignant)',
+                          'Actinic keratoses (Malignant)', 'Vascular lesions (Benign)', 'Dermatofibroma (Benign)']
 
                 labels = tuple(labels)
 
