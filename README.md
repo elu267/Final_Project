@@ -1,7 +1,11 @@
 # Final_Project
 
 ## Objective
+<<<<<<< HEAD
 Create a web application that allows users to investigate skin abnormalities such as moles / lesions and determine whether they should visit with a doctor or dermatologist for further testing. 
+=======
+Create a web application that allows users to investigate skin abnormalities such as moles / lesions displayed in an uploaded image. 
+>>>>>>> 094de61d2f3340683fd2f70bc012348ca5283fcd
 
 ## Overview
 #### What is a mole? 
@@ -49,7 +53,8 @@ Basal cell carcinoma is a common variant of epithelial skin cancer that rarely m
 ##### Actinic Keratoses (akiec):
 Actinic Keratoses (Solar Keratoses) and intraepithelial Carcinoma (Bowen’s disease) are common non-invasive, variants of squamous cell carcinoma that can be treated locally without surgery. Some researches regard them as precursors of squamous cell carcinomas and not as actual carcinomas.
 
-
+## Application Architecture
+![App Architecture](Final_Project/static/images/Lesion_Legion_App_Architecture_bigger_final_test.png)
 ## Data Preparation
 
 ### Step 1: Importing Libraries
