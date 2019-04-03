@@ -1,7 +1,7 @@
 # Final_Project
 
 ## Objective
-Create a web application that allows one to investigate skin abnormalities such as moles / lesions and determine whether they should visit with a doctor or dermatologist for further testing. 
+Create a web application that allows users to investigate skin abnormalities such as moles / lesions and determine whether they should visit with a doctor or dermatologist for further testing. 
 
 ## Overview
 #### What is a mole? 
@@ -143,6 +143,9 @@ print("Test: accuracy = %f  ;  loss = %f" % (accuracy, loss))
 ![Confusion Matrix](Final_Project/static/images/confusionMatrix.png)
 
 (0 = nv, 1 = mel, 2 = bkl, 3 = bcc, 4 = akiec, 5 = vasc, 6 = df)
+
+## Application Architecture
+![App Architecture](Final_Project/static/images/Lesion_Legion_App_Architecture_bigger_final_test.png)
 
 ## Conclusion
 * Overall, we achieved 82% categorical accuracy. Our false negative rate (representing missed malignant lesions) for the validation dataset was 18.6%. 

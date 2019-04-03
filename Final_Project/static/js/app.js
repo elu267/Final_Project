@@ -193,7 +193,7 @@ $(document).ready(function() {
                         .attr('id', 'myNewParagrap')
                         .append('text')
                         .text(
-                            `Result: ${first_name_val} probabilty you have ${first_name}, a ${second_name_val} you have ${second_name}, and ${third_name_val} it's ${third_name}.`
+                            `Result: There's a ${first_name_val} probability you have ${first_name}, a ${second_name_val} probability you have ${second_name}, and a ${third_name_val} probability you have ${third_name}.`
                         )
                 }
             } else if (image_results.length == 2) {
