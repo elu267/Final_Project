@@ -1,11 +1,7 @@
 # Final_Project
 
 ## Objective
-<<<<<<< HEAD
-Create a web application that allows users to investigate skin abnormalities such as moles / lesions and determine whether they should visit with a doctor or dermatologist for further testing. 
-=======
 Create a web application that allows users to investigate skin abnormalities such as moles / lesions displayed in an uploaded image. 
->>>>>>> 094de61d2f3340683fd2f70bc012348ca5283fcd
 
 ## Overview
 #### What is a mole? 
